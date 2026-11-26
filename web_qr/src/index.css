@@ -1,0 +1,195 @@
+:root {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: #2b1d14;
+  background: #fffaf6;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; }
+
+button, input, select { font: inherit; }
+
+a { color: inherit; }
+
+.app-shell { min-height: 100vh; }
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ef6c00;
+  color: white;
+  padding: 14px 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: white;
+}
+
+.brand-mark { font-size: 28px; }
+.brand span { display: flex; flex-direction: column; }
+.brand small { font-size: 12px; opacity: 0.85; }
+
+.app-content { max-width: 720px; margin: 0 auto; padding: 20px 16px 90px; }
+
+.page h1 { margin: 8px 0 16px; font-size: 24px; }
+.muted { color: #7c6a5c; font-size: 13px; }
+
+.notice {
+  background: #fff3cd;
+  border: 1px solid #ffd65a;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+.notice p { margin: 6px 0 0; }
+.notice code { background: #fff; padding: 1px 5px; border-radius: 4px; }
+
+.hero-card {
+  background: linear-gradient(135deg, #ffb74d, #ef6c00);
+  color: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.hero-card h1 { margin: 0 0 6px; font-size: 26px; }
+.hero-card p { margin: 0; opacity: 0.9; font-size: 14px; }
+
+.search-input, input, select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e3d5c8;
+  border-radius: 10px;
+  background: white;
+  margin-bottom: 12px;
+}
+
+.chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+.chip {
+  white-space: nowrap;
+  border: 1px solid #e3d5c8;
+  background: white;
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+}
+.chip.active { background: #ef6c00; border-color: #ef6c00; color: white; }
+
+.menu-grid { display: grid; gap: 12px; margin-top: 12px; }
+.menu-card {
+  display: flex;
+  gap: 14px;
+  text-align: left;
+  background: white;
+  border: 1px solid #f0e4d8;
+  border-radius: 14px;
+  padding: 14px;
+  cursor: pointer;
+}
+.menu-card:disabled { opacity: 0.55; cursor: not-allowed; }
+.menu-emoji {
+  width: 58px; height: 58px; flex: none;
+  display: grid; place-items: center;
+  background: #fff1e2; border-radius: 12px; font-size: 28px;
+}
+.menu-info { flex: 1; }
+.menu-info p { margin: 4px 0; font-size: 13px; color: #7c6a5c; }
+.price { color: #e65100; font-weight: 700; }
+.price.sold-out { color: #999; }
+
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 20;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid; place-items: center; padding: 16px;
+}
+.modal {
+  background: white; border-radius: 18px; padding: 20px;
+  width: min(100%, 420px); max-height: 85vh; overflow-y: auto;
+}
+.modal h2 { margin: 0 0 4px; }
+.modal h3 { margin: 16px 0 8px; font-size: 15px; }
+.checkbox-row, .radio-row { display: flex; gap: 8px; align-items: center; padding: 6px 0; }
+.checkbox-row small { color: #e65100; }
+
+.quantity-row { display: flex; align-items: center; gap: 16px; margin: 16px 0; }
+.quantity-row button {
+  width: 34px; height: 34px; border-radius: 8px;
+  border: 1px solid #e3d5c8; background: white; cursor: pointer;
+}
+.quantity-row.compact { gap: 10px; margin: 8px 0 0; }
+
+.primary-button {
+  background: #ef6c00; color: white; border: 0;
+  border-radius: 10px; padding: 12px 18px; cursor: pointer; font-weight: 600;
+}
+.primary-button:disabled { opacity: 0.6; }
+.primary-button.block, .text-button.block { display: block; width: 100%; text-align: center; }
+.primary-link {
+  display: inline-block; background: #ef6c00; color: white;
+  padding: 10px 16px; border-radius: 10px; text-decoration: none; font-weight: 600;
+}
+.text-button {
+  background: none; border: 0; color: #7c6a5c;
+  padding: 10px; cursor: pointer; text-decoration: underline;
+}
+.text-button.danger { color: #c62828; }
+
+.empty-card, .summary-card, .cart-item, .ticket-card, .history-card {
+  background: white; border: 1px solid #f0e4d8;
+  border-radius: 14px; padding: 16px; margin-bottom: 12px;
+}
+.cart-item-head, .cart-item-foot, .summary-row {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+}
+.note-input { margin: 10px 0 0; font-size: 13px; }
+.summary-row.total { font-size: 18px; border-top: 1px solid #f0e4d8; padding-top: 10px; margin-top: 10px; }
+
+.checkout-form label { display: block; font-size: 14px; font-weight: 600; }
+.checkout-form fieldset { border: 1px solid #f0e4d8; border-radius: 12px; margin-bottom: 14px; }
+.checkout-form legend { font-weight: 600; font-size: 14px; }
+.error-text { color: #c62828; font-size: 13px; }
+.search-form { display: flex; gap: 8px; }
+.search-form input { margin-bottom: 0; }
+.search-form button { width: auto; }
+
+.ticket-card {
+  display: flex; flex-direction: column; background: #fff1e2;
+  border-color: #ffd6a5; text-align: center; font-size: 14px;
+}
+.ticket-card strong { font-size: 26px; color: #e65100; }
+.timeline { list-style: none; padding: 0; margin: 20px 0; }
+.timeline li { display: flex; gap: 14px; padding: 10px 0; color: #9c8b7d; }
+.timeline li.done { color: #2b1d14; }
+.timeline-dot {
+  width: 14px; height: 14px; flex: none; margin-top: 4px;
+  border-radius: 50%; background: #e3d5c8;
+}
+.timeline li.done .timeline-dot { background: #ef6c00; }
+.timeline small { display: block; }
+
+.history-card { display: flex; justify-content: space-between; text-decoration: none; }
+.history-card > div, .history-right { display: flex; flex-direction: column; gap: 4px; }
+.history-right { text-align: right; }
+.history-right small { text-transform: capitalize; }
+
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; justify-content: space-around;
+  background: white; border-top: 1px solid #f0e4d8;
+  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+}
+.bottom-nav a {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; font-size: 12px; text-decoration: none; color: #7c6a5c;
+}
+.bottom-nav a.active { color: #ef6c00; font-weight: 700; }
+.bottom-nav span { font-size: 20px; }
