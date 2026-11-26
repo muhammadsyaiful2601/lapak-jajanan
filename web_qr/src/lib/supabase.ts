@@ -12,5 +12,5 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
   : null
 
 export function formatRupiah(value: number): string {
-  return `Rp ${value.toLocaleString('id-ID')}`
+  return `Rp${value.toLocaleString('id-ID')}`
 }

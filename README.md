@@ -11,7 +11,8 @@ Lapak jajanan/
 ├── product_requirements_document_prd_lengkap_lapak_jajanan.md  # PRD (minggu 1)
 ├── docs/
 │   ├── 01_panduan_setup.md        # Panduan instalasi & konfigurasi
-│   └── 02_checklist_minggu1.md    # Deliverable minggu 1
+│   ├── 02_checklist_minggu1.md    # Deliverable minggu 1
+│   └── 03_catatan_pekerjaan.md    # Catatan slicing UI web (belum di-push)
 ├── database/
 │   ├── database_schema.sql        # Skema Supabase (8 tabel)
 │   ├── rls_policies.sql           # Row Level Security + Realtime
@@ -33,13 +34,13 @@ Pemetaan aktor ke modul:
 ### 1. Backend (Supabase)
 1. Buat project di https://supabase.com/dashboard.
 2. Jalankan berurutan di **SQL Editor**: `database/database_schema.sql`, `database/rls_policies.sql`, `database/seed.sql`.
-3. Salan `Project URL` dan `anon key` untuk dipakai aplikasi.
+3. Salin `Project URL` dan `publishable key` (project lama bisa memakai `anon key`).
 
 ### 2. Web pelanggan
 ```bash
 cd web_qr
 npm install
-cp .env.example .env   # isi VITE_SUPABASE_URL & VITE_SUPABASE_ANON_KEY
+cp .env.example .env   # isi VITE_SUPABASE_URL & VITE_SUPABASE_PUBLISHABLE_KEY
 npm run dev
 ```
 
@@ -66,6 +67,8 @@ git push -u origin pbl
 ```
 
 > `pbl` sudah dijadikan branch lokal saat setup. Jangan commit file `.env`, `local.properties`, `node_modules/`, atau `.dart_tool/`.
+>
+> Slicing UI web pelanggan (katalog, topping, keranjang) saat ini **belum di-commit dan belum di-push**. Rincian pekerjaan ada di [`docs/03_catatan_pekerjaan.md`](docs/03_catatan_pekerjaan.md).
 
 ## Status pengembangan
 
