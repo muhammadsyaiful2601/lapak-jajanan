@@ -1,15 +1,33 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lapak_jajanan/features/admin/admin_dashboard_page.dart';
 import 'package:lapak_jajanan/features/admin/catalog_page.dart';
 import 'package:lapak_jajanan/features/admin/orders_page.dart';
+import 'package:lapak_jajanan/features/customer/checkout_page.dart';
+import 'package:lapak_jajanan/features/customer/order_history_page.dart';
+import 'package:lapak_jajanan/features/customer/tracking_page.dart';
 import 'package:lapak_jajanan/features/owner/owner_dashboard_page.dart';
 import 'package:lapak_jajanan/features/pos/pos_page.dart';
 import 'package:lapak_jajanan/features/shared/widgets/app_shell.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/customer/checkout',
   routes: [
+    GoRoute(
+      path: '/customer/checkout',
+      builder: (context, state) =>
+          const _CustomerMaterialScope(child: CheckoutPage()),
+    ),
+    GoRoute(
+      path: '/customer/tracking',
+      builder: (context, state) =>
+          const _CustomerMaterialScope(child: TrackingPage()),
+    ),
+    GoRoute(
+      path: '/customer/orders',
+      builder: (context, state) =>
+          const _CustomerMaterialScope(child: OrderHistoryPage()),
+    ),
     ShellRoute(
       builder: (context, state, child) => AppShell(child: child),
       routes: [
@@ -41,3 +59,21 @@ final appRouter = GoRouter(
     body: Center(child: Text(state.error.toString())),
   ),
 );
+
+class _CustomerMaterialScope extends StatelessWidget {
+  const _CustomerMaterialScope({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Localizations.override(
+      context: context,
+      delegates: const [
+        DefaultMaterialLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+      ],
+      child: Material(type: MaterialType.transparency, child: child),
+    );
+  }
+}
