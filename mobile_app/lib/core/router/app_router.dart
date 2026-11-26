@@ -29,11 +29,12 @@ final appRouter = GoRouter(
           path: '/pos',
           builder: (context, state) => const PosPage(),
         ),
-        GoRoute(
-          path: '/owner',
-          builder: (context, state) => const OwnerDashboardPage(),
-        ),
       ],
+    ),
+    // Owner memakai OwnerShell sendiri (sidebar + header), jadi tidak dibungkus AppShell.
+    GoRoute(
+      path: '/owner',
+      builder: (context, state) => const OwnerDashboardPage(),
     ),
   ],
   errorBuilder: (context, state) => Scaffold(
