@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { SetupNotice } from '../components/SetupNotice'
 import { useCart } from '../context/useCart'
 import { getLocationId } from '../lib/location'
+import { calculatePb1 } from '../lib/pricing'
 import { formatRupiah, supabase } from '../lib/supabase'
 import type { ShippingRate } from '../types'
 
@@ -31,6 +32,8 @@ export function CheckoutPage() {
 
   const selectedRate = rates.find((rate) => rate.id === shippingRateId)
   const shippingFee = orderType === 'DELIVERY' ? Number(selectedRate?.fee ?? 0) : 0
+  const pb1 = calculatePb1(subtotal)
+  const total = subtotal + pb1 + shippingFee
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -68,7 +71,7 @@ export function CheckoutPage() {
           payment_status: 'PENDING',
           order_status: 'MENUNGGU_KONFIRMASI',
           subtotal_amount: subtotal,
-          total_amount: subtotal + shippingFee,
+          total_amount: total,
         })
         .select('id')
         .single()
@@ -163,9 +166,10 @@ export function CheckoutPage() {
         </fieldset>
 
         <div className="summary-card">
-          <div className="summary-row"><span>Subtotal</span><span>{formatRupiah(subtotal)}</span></div>
+          <div className="summary-row"><span>Subtotal menu</span><span>{formatRupiah(subtotal)}</span></div>
+          <div className="summary-row"><span>PB1 Resto (10%)</span><span>{formatRupiah(pb1)}</span></div>
           <div className="summary-row"><span>Ongkir</span><span>{formatRupiah(shippingFee)}</span></div>
-          <div className="summary-row total"><span>Total</span><strong>{formatRupiah(subtotal + shippingFee)}</strong></div>
+          <div className="summary-row total"><span>Total</span><strong>{formatRupiah(total)}</strong></div>
         </div>
 
         {error && <p className="error-text">{error}</p>}

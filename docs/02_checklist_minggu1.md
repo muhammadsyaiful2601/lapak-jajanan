@@ -8,6 +8,7 @@
 - [x] Skema database Supabase 8 tabel + RLS + data contoh
 - [x] Scaffold Flutter `mobile_app/` (Android + iOS)
 - [x] Scaffold web `web_qr/` (React + TypeScript + Vite)
+- [x] Slicing UI web pelanggan: katalog, pencarian/filter, detail menu & topping, keranjang
 - [x] Konfigurasi environment `.env.example` (tanpa secret)
 
 ## Yang belum dibuat (minggu berikutnya)

@@ -46,19 +46,18 @@ function cartReducer(state: CartItem[], action: CartAction): CartItem[] {
   }
 }
 
-export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, dispatch] = useReducer(cartReducer, [] as CartItem[])
-
-  useEffect(() => {
+function loadCart(): CartItem[] {
+  try {
     const saved = localStorage.getItem(STORAGE_KEY)
-    if (saved) {
-      try {
-        dispatch({ type: 'replace', items: JSON.parse(saved) as CartItem[] })
-      } catch {
-        localStorage.removeItem(STORAGE_KEY)
-      }
-    }
-  }, [])
+    return saved ? (JSON.parse(saved) as CartItem[]) : []
+  } catch {
+    localStorage.removeItem(STORAGE_KEY)
+    return []
+  }
+}
+
+export function CartProvider({ children }: { children: ReactNode }) {
+  const [items, dispatch] = useReducer(cartReducer, undefined, loadCart)
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items))

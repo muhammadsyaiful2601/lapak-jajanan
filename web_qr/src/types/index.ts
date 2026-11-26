@@ -63,6 +63,27 @@ export interface Order {
   created_at: string
 }
 
+export type MenuTone = 'orange' | 'red' | 'green' | 'yellow' | 'brown'
+
+/** Ringkasan menu yang disimpan di keranjang agar tampilan tidak perlu fetch ulang. */
+export interface CartMenuSnapshot {
+  id: string
+  name: string
+  description: string | null
+  price: number
+  image_url: string | null
+  emoji: string
+  tone: MenuTone
+  badge?: string
+  tag?: string
+}
+
+export interface CartTopping {
+  id: string
+  name: string
+  price: number
+}
+
 export interface CartItem {
   key: string
   menuId: string
@@ -71,4 +92,9 @@ export interface CartItem {
   toppingNames: string[]
   quantity: number
   note: string
+  menu?: CartMenuSnapshot
+  variantId?: 'reguler' | 'jumbo'
+  variantLabel?: string
+  variantExtra?: number
+  toppings?: CartTopping[]
 }

@@ -1,6 +1,6 @@
 import { isSupabaseConfigured } from '../lib/supabase'
 
-/** Muncul saat env Supabase belum diisi, supaya jelas why data kosong. */
+/** Muncul saat env Supabase belum diisi — katalog memakai data contoh. */
 export function SetupNotice() {
   if (isSupabaseConfigured) return null
 
@@ -8,9 +8,7 @@ export function SetupNotice() {
     <div className="notice">
       <strong>Mode preview</strong>
       <p>
-        Supabase belum terhubung. Salin <code>.env.example</code> menjadi{' '}
-        <code>.env</code>, isi URL dan publishable key, lalu restart{' '}
-        <code>npm run dev</code>.
+        Menampilkan data contoh. Isi <code>.env</code> dari <code>.env.example</code> untuk memakai data Supabase.
       </p>
     </div>
   )
