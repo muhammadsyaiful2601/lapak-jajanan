@@ -12,6 +12,8 @@ class LapakJajananApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       routerConfig: appRouter,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: const [Locale('id', 'ID'), Locale('en', 'US')],
     );
   }
 }
