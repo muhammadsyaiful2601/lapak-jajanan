@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/theme/owner_theme.dart';
 import 'widgets/kpi_card.dart';
 
@@ -29,7 +30,7 @@ class OrderTypePage extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 14,
               mainAxisSpacing: 14,
-              childAspectRatio: cols == 1 ? 2.2 : 1.55,
+              mainAxisExtent: 280,
               children: const [
                 KpiMetricCard(
                   title: 'TOTAL PESANAN DELIVERY',
@@ -73,49 +74,130 @@ class OrderTypePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Tabel Rincian Kinerja Berdasarkan Kanal Pesanan', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+              const Text(
+                'Tabel Rincian Kinerja Berdasarkan Kanal Pesanan',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+              ),
               const SizedBox(height: 14),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
-                  headingRowColor: WidgetStateProperty.all(OwnerColors.surfaceContainerLow),
+                  headingRowColor: WidgetStateProperty.all(
+                    OwnerColors.surfaceContainerLow,
+                  ),
                   columns: const [
                     DataColumn(label: Text('Kanal Pesanan & Sub-Tipe')),
                     DataColumn(label: Text('Volume'), numeric: true),
                     DataColumn(label: Text('Pangsa Vol'), numeric: true),
                     DataColumn(label: Text('Total Omset Kotor'), numeric: true),
-                    DataColumn(label: Text('Rata-rata Nota (AOV)'), numeric: true),
+                    DataColumn(
+                      label: Text('Rata-rata Nota (AOV)'),
+                      numeric: true,
+                    ),
                     DataColumn(label: Text('Avg Item')),
                     DataColumn(label: Text('Status Operasional')),
                   ],
                   rows: const [
-                    DataRow(cells: [
-                      DataCell(Text('Pesan Antar Online (Delivery)', style: TextStyle(fontWeight: FontWeight.w700))),
-                      DataCell(Text('828')),
-                      DataCell(Text('58,0%', style: TextStyle(color: OwnerColors.tertiary, fontWeight: FontWeight.bold))),
-                      DataCell(Text('Rp 25.447.500', style: TextStyle(fontWeight: FontWeight.w700))),
-                      DataCell(Text('Rp 30.733', style: TextStyle(color: OwnerColors.primary, fontWeight: FontWeight.w600))),
-                      DataCell(Text('2,8 Item')),
-                      DataCell(Text('Optimal (Radius 5 km)')),
-                    ]),
-                    DataRow(cells: [
-                      DataCell(Text('Ambil di Tempat (Pickup / Takeaway)', style: TextStyle(fontWeight: FontWeight.w700))),
-                      DataCell(Text('340')),
-                      DataCell(Text('23,8%', style: TextStyle(color: OwnerColors.secondary, fontWeight: FontWeight.bold))),
-                      DataCell(Text('Rp 10.502.500', style: TextStyle(fontWeight: FontWeight.w700))),
-                      DataCell(Text('Rp 30.890')),
-                      DataCell(Text('2,6 Item')),
-                      DataCell(Text('Lancar (Tanpa Antrean)')),
-                    ]),
-                    DataRow(cells: [
-                      DataCell(Text('Makan di Tempat (Dine-in)', style: TextStyle(fontWeight: FontWeight.w700))),
-                      DataCell(Text('260')),
-                      DataCell(Text('18,2%', style: TextStyle(fontWeight: FontWeight.bold))),
-                      DataCell(Text('Rp 12.800.000', style: TextStyle(fontWeight: FontWeight.w700))),
-                      DataCell(Text('Rp 49.230', style: TextStyle(color: OwnerColors.tertiary, fontWeight: FontWeight.bold))),
-                      DataCell(Text('3,6 Item')),
-                      DataCell(Text('Kapasitas Meja 92%')),
-                    ]),
+                    DataRow(
+                      cells: [
+                        DataCell(
+                          Text(
+                            'Pesan Antar Online (Delivery)',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        DataCell(Text('828')),
+                        DataCell(
+                          Text(
+                            '58,0%',
+                            style: TextStyle(
+                              color: OwnerColors.tertiary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            'Rp 25.447.500',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            'Rp 30.733',
+                            style: TextStyle(
+                              color: OwnerColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        DataCell(Text('2,8 Item')),
+                        DataCell(Text('Optimal (Radius 5 km)')),
+                      ],
+                    ),
+                    DataRow(
+                      cells: [
+                        DataCell(
+                          Text(
+                            'Ambil di Tempat (Pickup / Takeaway)',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        DataCell(Text('340')),
+                        DataCell(
+                          Text(
+                            '23,8%',
+                            style: TextStyle(
+                              color: OwnerColors.secondary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            'Rp 10.502.500',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        DataCell(Text('Rp 30.890')),
+                        DataCell(Text('2,6 Item')),
+                        DataCell(Text('Lancar (Tanpa Antrean)')),
+                      ],
+                    ),
+                    DataRow(
+                      cells: [
+                        DataCell(
+                          Text(
+                            'Makan di Tempat (Dine-in)',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        DataCell(Text('260')),
+                        DataCell(
+                          Text(
+                            '18,2%',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            'Rp 12.800.000',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            'Rp 49.230',
+                            style: TextStyle(
+                              color: OwnerColors.tertiary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        DataCell(Text('3,6 Item')),
+                        DataCell(Text('Kapasitas Meja 92%')),
+                      ],
+                    ),
                   ],
                 ),
               ),

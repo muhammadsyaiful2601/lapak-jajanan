@@ -35,11 +35,48 @@ class FeaturePlaceholder extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(description, style: theme.textTheme.bodyMedium),
                 const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.construction_outlined,
+                        color: theme.colorScheme.primary,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Dalam Pengembangan',
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              'Estimasi pengerjaan: minggu ke-2–5 sesuai roadmap PBL.',
+                              style: theme.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
                 Wrap(
                   spacing: 8,
                   children: [
                     for (final code in frCodes)
-                      Chip(label: Text(code), labelPadding: const EdgeInsets.symmetric(horizontal: 4)),
+                      Chip(
+                        label: Text(code),
+                        labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+                      ),
                   ],
                 ),
               ],
@@ -48,8 +85,7 @@ class FeaturePlaceholder extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Modul ini disiapkan pada minggu 1 sebagai fondasi. '
-          'Implementasi UI dan integrasi Supabase mengikuti jadwal PBL.',
+          'Estimasi dapat berubah mengikuti prioritas pengembangan dan hasil integrasi.',
           style: theme.textTheme.bodySmall,
         ),
       ],

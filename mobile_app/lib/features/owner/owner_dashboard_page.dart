@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/theme/owner_theme.dart';
 import '../../data/models/analytics_models.dart';
 import 'order_type_page.dart';
@@ -76,15 +77,15 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
             final crossAxisCount = constraints.maxWidth >= 900
                 ? 4
                 : constraints.maxWidth >= 560
-                    ? 2
-                    : 1;
+                ? 2
+                : 1;
             return GridView.count(
               crossAxisCount: crossAxisCount,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 14,
               mainAxisSpacing: 14,
-              childAspectRatio: crossAxisCount == 1 ? 2.1 : 1.38,
+              mainAxisExtent: 280,
               children: const [
                 KpiMetricCard(
                   title: 'Total Penjualan (Gross)',
@@ -173,8 +174,10 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
         const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
+            Wrap(
+              spacing: 8,
+              runSpacing: 4,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text(
                   'RINGKASAN EKSEKUTIF',
@@ -186,11 +189,17 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                   ),
                 ),
                 SizedBox(width: 8),
-                CircleAvatar(radius: 2.5, backgroundColor: OwnerColors.outlineVariant),
+                CircleAvatar(
+                  radius: 2.5,
+                  backgroundColor: OwnerColors.outlineVariant,
+                ),
                 SizedBox(width: 8),
                 Text(
                   'Update: 24 Okt 2023, 21:40 WIB',
-                  style: TextStyle(fontSize: 12, color: OwnerColors.onSurfaceVariant),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: OwnerColors.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),
@@ -207,7 +216,10 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
             SizedBox(height: 4),
             Text(
               'Pemantauan real-time performa finansial, volume penjualan, dan tren operasional gabungan Lapak Jajan (Gerai Tebet & Pasar Kuliner).',
-              style: TextStyle(fontSize: 13.5, color: OwnerColors.onSurfaceVariant),
+              style: TextStyle(
+                fontSize: 13.5,
+                color: OwnerColors.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -228,9 +240,14 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                   borderRadius: BorderRadius.circular(10),
                   onTap: () => setState(() => _selectedPreset = i),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 7,
+                    ),
                     decoration: BoxDecoration(
-                      color: active ? OwnerColors.surfaceContainerLowest : Colors.transparent,
+                      color: active
+                          ? OwnerColors.surfaceContainerLowest
+                          : Colors.transparent,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -238,14 +255,19 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: active ? FontWeight.w600 : FontWeight.w500,
-                        color: active ? OwnerColors.primary : OwnerColors.onSurfaceVariant,
+                        color: active
+                            ? OwnerColors.primary
+                            : OwnerColors.onSurfaceVariant,
                       ),
                     ),
                   ),
                 );
               }),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 7,
+                ),
                 decoration: BoxDecoration(
                   color: OwnerColors.surfaceContainerLowest,
                   borderRadius: BorderRadius.circular(10),
@@ -253,9 +275,22 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.calendar_month_rounded, size: 15, color: OwnerColors.primary),
+                    Icon(
+                      Icons.calendar_month_rounded,
+                      size: 15,
+                      color: OwnerColors.primary,
+                    ),
                     SizedBox(width: 6),
-                    Text('01 Okt - 24 Okt 2023', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+                    Flexible(
+                      child: Text(
+                        '01 Okt - 24 Okt 2023',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -264,8 +299,13 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: OwnerColors.primary,
                   foregroundColor: OwnerColors.onPrimary,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   elevation: 0,
                 ),
                 icon: AnimatedRotation(
@@ -273,7 +313,10 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                   duration: const Duration(milliseconds: 500),
                   child: const Icon(Icons.sync_rounded, size: 16),
                 ),
-                label: const Text('Refresh', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                label: const Text(
+                  'Refresh',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                ),
               ),
             ],
           ),
@@ -300,16 +343,25 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 6,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       const Text(
                         'Tren Penjualan & Pendapatan Bersih Harian',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: OwnerColors.onSurface),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: OwnerColors.onSurface,
+                        ),
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
                         decoration: BoxDecoration(
                           color: OwnerColors.secondaryContainer,
                           borderRadius: BorderRadius.circular(999),
@@ -328,33 +380,50 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                   const SizedBox(height: 2),
                   const Text(
                     'Perbandingan harian nilai kotor (Gross) versus pendapatan bersih pasca potongan.',
-                    style: TextStyle(fontSize: 12, color: OwnerColors.onSurfaceVariant),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: OwnerColors.onSurfaceVariant,
+                    ),
                   ),
                 ],
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
+              Wrap(
+                spacing: 10,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
                       color: OwnerColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Row(
                       children: [
-                        Icon(Icons.workspace_premium_rounded, size: 16, color: OwnerColors.primary),
+                        Icon(
+                          Icons.workspace_premium_rounded,
+                          size: 16,
+                          color: OwnerColors.primary,
+                        ),
                         SizedBox(width: 4),
-                        Text(
-                          'Puncak: Sabtu 21 Okt (Rp 8,42 Jt)',
-                          style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600, color: OwnerColors.primary),
+                        Flexible(
+                          child: Text(
+                            'Puncak: Sabtu 21 Okt (Rp 8,42 Jt)',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.w600,
+                              color: OwnerColors.primary,
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 14),
                   _legendDot(OwnerColors.primary, 'Penjualan Kotor'),
-                  const SizedBox(width: 10),
                   _legendDot(OwnerColors.tertiary, 'Pendapatan Bersih'),
                 ],
               ),
@@ -368,17 +437,19 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: MockAnalyticsRepository.weeklySales.length,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 160,
+              maxCrossAxisExtent: 280,
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
-              childAspectRatio: 2.2,
+              childAspectRatio: 1.7,
             ),
             itemBuilder: (context, index) {
               final d = MockAnalyticsRepository.weeklySales[index];
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 decoration: BoxDecoration(
-                  color: d.isPeak ? OwnerColors.secondaryContainer : OwnerColors.surfaceContainerLow,
+                  color: d.isPeak
+                      ? OwnerColors.secondaryContainer
+                      : OwnerColors.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
@@ -388,8 +459,12 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                       d.isPeak ? '21 Okt (Sab)' : d.dayLabel,
                       style: TextStyle(
                         fontSize: 11,
-                        fontWeight: d.isPeak ? FontWeight.w600 : FontWeight.w500,
-                        color: d.isPeak ? OwnerColors.onSecondaryContainer : OwnerColors.onSurfaceVariant,
+                        fontWeight: d.isPeak
+                            ? FontWeight.w600
+                            : FontWeight.w500,
+                        color: d.isPeak
+                            ? OwnerColors.onSecondaryContainer
+                            : OwnerColors.onSurfaceVariant,
                       ),
                     ),
                     Text(
@@ -397,7 +472,9 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                       style: TextStyle(
                         fontSize: 12.5,
                         fontWeight: FontWeight.w700,
-                        color: d.isPeak ? OwnerColors.primary : OwnerColors.onSurface,
+                        color: d.isPeak
+                            ? OwnerColors.primary
+                            : OwnerColors.onSurface,
                       ),
                     ),
                   ],
@@ -416,7 +493,10 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
       children: [
         CircleAvatar(radius: 5, backgroundColor: color),
         const SizedBox(width: 5),
-        Text(label, style: const TextStyle(fontSize: 12, color: OwnerColors.onSurface)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: OwnerColors.onSurface),
+        ),
       ],
     );
   }
@@ -433,26 +513,47 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   const Row(
                     children: [
-                      Icon(Icons.payments_rounded, color: OwnerColors.primary, size: 20),
+                      Icon(
+                        Icons.payments_rounded,
+                        color: OwnerColors.primary,
+                        size: 20,
+                      ),
                       SizedBox(width: 8),
-                      Text(
-                        'Metode Pembayaran',
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+                      Flexible(
+                        child: Text(
+                          'Metode Pembayaran',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: OwnerColors.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(999),
                     ),
-                    child: const Text('1.428 Transaksi', style: TextStyle(fontSize: 11, color: OwnerColors.onSurfaceVariant)),
+                    child: const Text(
+                      '1.428 Transaksi',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: OwnerColors.onSurfaceVariant,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -463,53 +564,73 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                   color: OwnerColors.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Row(
-                  children: [
-                    const DonutPaymentChart(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final methodRows = Column(
+                      children: [
+                        _paymentMethodRow(
+                          color: OwnerColors.primary,
+                          title: 'QRIS Dinamis',
+                          amount: 'Rp 27,20 Jt',
+                          subLeft: '885 transaksi',
+                          subRight: '62,0%',
+                          progress: 0.62,
+                        ),
+                        const SizedBox(height: 10),
+                        _paymentMethodRow(
+                          color: OwnerColors.secondary,
+                          title: 'Tunai / Cash Kasir',
+                          amount: 'Rp 16,67 Jt',
+                          subLeft: '543 transaksi',
+                          subRight: '38,0%',
+                          progress: 0.38,
+                        ),
+                      ],
+                    );
+                    const chart = DonutPaymentChart(
                       primaryPercent: 62,
                       centerTitle: '62%',
                       centerSubtitle: 'QRIS',
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
+                    );
+                    if (constraints.maxWidth < 480) {
+                      return Column(
                         children: [
-                          _paymentMethodRow(
-                            color: OwnerColors.primary,
-                            title: 'QRIS Dinamis',
-                            amount: 'Rp 27,20 Jt',
-                            subLeft: '885 transaksi',
-                            subRight: '62,0%',
-                            progress: 0.62,
-                          ),
-                          const SizedBox(height: 10),
-                          _paymentMethodRow(
-                            color: OwnerColors.secondary,
-                            title: 'Tunai / Cash Kasir',
-                            amount: 'Rp 16,67 Jt',
-                            subLeft: '543 transaksi',
-                            subRight: '38,0%',
-                            progress: 0.38,
-                          ),
+                          chart,
+                          const SizedBox(height: 14),
+                          methodRows,
                         ],
-                      ),
-                    ),
-                  ],
+                      );
+                    }
+                    return Row(
+                      children: [
+                        chart,
+                        const SizedBox(width: 14),
+                        Expanded(child: methodRows),
+                      ],
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 10),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                alignment: WrapAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Non-Tunai mencakup QRIS BCA, GoPay, OVO, ShopeePay',
-                      style: TextStyle(fontSize: 11.5, color: OwnerColors.onSurfaceVariant),
+                  Text(
+                    'Non-Tunai mencakup QRIS BCA, GoPay, OVO, ShopeePay',
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      color: OwnerColors.onSurfaceVariant,
                     ),
                   ),
                   Text(
                     'Cashless Dominan',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: OwnerColors.primary),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: OwnerColors.primary,
+                    ),
                   ),
                 ],
               ),
@@ -527,32 +648,62 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   const Row(
                     children: [
-                      Icon(Icons.two_wheeler_rounded, color: OwnerColors.tertiary, size: 20),
+                      Icon(
+                        Icons.two_wheeler_rounded,
+                        color: OwnerColors.tertiary,
+                        size: 20,
+                      ),
                       SizedBox(width: 8),
-                      Text('Jenis Pesanan', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+                      Text(
+                        'Jenis Pesanan',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: OwnerColors.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(999),
                     ),
-                    child: const Text('Total 1.428 Pesanan', style: TextStyle(fontSize: 11, color: OwnerColors.onSurfaceVariant)),
+                    child: const Text(
+                      'Total 1.428 Pesanan',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: OwnerColors.onSurfaceVariant,
+                      ),
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const Wrap(
+                spacing: 12,
+                runSpacing: 4,
+                alignment: WrapAlignment.spaceBetween,
                 children: [
-                  Text('Delivery Online (58%)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
-                  Text('Pickup Mandiri (42%)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+                  Text(
+                    'Delivery Online (58%)',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    'Pickup Mandiri (42%)',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                  ),
                 ],
               ),
               const SizedBox(height: 6),
@@ -567,7 +718,14 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                         child: Container(
                           color: OwnerColors.primary,
                           alignment: Alignment.center,
-                          child: const Text('58%', style: TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold)),
+                          child: const Text(
+                            '58%',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                       Expanded(
@@ -575,7 +733,14 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                         child: Container(
                           color: OwnerColors.tertiary,
                           alignment: Alignment.center,
-                          child: const Text('42%', style: TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold)),
+                          child: const Text(
+                            '42%',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -583,51 +748,107 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
                 ),
               ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: OwnerColors.secondaryContainer.withValues(alpha: 0.45),
-                        borderRadius: BorderRadius.circular(12),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final cardWidth = constraints.maxWidth < 460
+                      ? constraints.maxWidth
+                      : (constraints.maxWidth - 10) / 2;
+                  return Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      SizedBox(
+                        width: cardWidth,
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: OwnerColors.secondaryContainer.withValues(
+                              alpha: 0.45,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Pesan Antar (Grab/Go/Web)',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: OwnerColors.onSurfaceVariant,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                'Rp 25.447.500',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: OwnerColors.primary,
+                                ),
+                              ),
+                              Text(
+                                '828 pesanan selesai',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: OwnerColors.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Pesan Antar (Grab/Go/Web)', style: TextStyle(fontSize: 11, color: OwnerColors.onSurfaceVariant)),
-                          SizedBox(height: 2),
-                          Text('Rp 25.447.500', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OwnerColors.primary)),
-                          Text('828 pesanan selesai', style: TextStyle(fontSize: 11, color: OwnerColors.onSurfaceVariant)),
-                        ],
+                      SizedBox(
+                        width: cardWidth,
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: OwnerColors.tertiaryFixed.withValues(
+                              alpha: 0.35,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Bawa Pulang / Dine-In',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: OwnerColors.onSurfaceVariant,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                'Rp 18.427.500',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: OwnerColors.tertiary,
+                                ),
+                              ),
+                              Text(
+                                '600 pesanan diambil',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: OwnerColors.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: OwnerColors.tertiaryFixed.withValues(alpha: 0.35),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Bawa Pulang / Dine-In', style: TextStyle(fontSize: 11, color: OwnerColors.onSurfaceVariant)),
-                          SizedBox(height: 2),
-                          Text('Rp 18.427.500', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: OwnerColors.tertiary)),
-                          Text('600 pesanan diambil', style: TextStyle(fontSize: 11, color: OwnerColors.onSurfaceVariant)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 10),
               const Text(
                 '*Tren order delivery melonjak saat jam 17:00 - 20:30 WIB (Lapak Rush Hour).',
-                style: TextStyle(fontSize: 11.5, fontStyle: FontStyle.italic, color: OwnerColors.onSurfaceVariant),
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontStyle: FontStyle.italic,
+                  color: OwnerColors.onSurfaceVariant,
+                ),
               ),
             ],
           ),
@@ -647,23 +868,54 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                CircleAvatar(radius: 4.5, backgroundColor: color),
-                const SizedBox(width: 6),
-                Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-              ],
+            Expanded(
+              child: Row(
+                children: [
+                  CircleAvatar(radius: 4.5, backgroundColor: color),
+                  const SizedBox(width: 6),
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Text(amount, style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: color)),
+            const SizedBox(width: 8),
+            Text(
+              amount,
+              style: TextStyle(
+                fontSize: 12.5,
+                fontWeight: FontWeight.w700,
+                color: color,
+              ),
+            ),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
           children: [
-            Text(subLeft, style: const TextStyle(fontSize: 11, color: OwnerColors.onSurfaceVariant)),
-            Text(subRight, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: color)),
+            Text(
+              subLeft,
+              style: const TextStyle(
+                fontSize: 11,
+                color: OwnerColors.onSurfaceVariant,
+              ),
+            ),
+            Text(
+              subRight,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: color,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 4),
@@ -690,31 +942,59 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.local_fire_department_rounded, color: OwnerColors.primary, size: 22),
+                  Icon(
+                    Icons.local_fire_department_rounded,
+                    color: OwnerColors.primary,
+                    size: 22,
+                  ),
                   SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Top 5 Menu Paling Laris', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
-                      Text('Berdasarkan volume penjualan 7 hari terakhir', style: TextStyle(fontSize: 12, color: OwnerColors.onSurfaceVariant)),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Top 5 Menu Paling Laris',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'Berdasarkan volume penjualan 7 hari terakhir',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: OwnerColors.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: OwnerColors.tertiaryFixed,
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: const Text(
                   'High Velocity',
-                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: OwnerColors.onTertiaryFixed),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: OwnerColors.onTertiaryFixed,
+                  ),
                 ),
               ),
             ],
@@ -724,77 +1004,128 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
             final badgeBg = item.rank == 1
                 ? OwnerColors.primary
                 : item.rank == 2
-                    ? OwnerColors.secondaryContainer
-                    : OwnerColors.surfaceContainerHigh;
+                ? OwnerColors.secondaryContainer
+                : OwnerColors.surfaceContainerHigh;
             final badgeFg = item.rank == 1
                 ? OwnerColors.onPrimary
                 : item.rank == 2
-                    ? OwnerColors.onSecondaryContainer
-                    : OwnerColors.onSurface;
+                ? OwnerColors.onSecondaryContainer
+                : OwnerColors.onSurface;
 
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 6),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: OwnerColors.surfaceContainerLow.withValues(alpha: 0.55),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 13,
-                      backgroundColor: badgeBg,
-                      child: Text(
-                        '#${item.rank}',
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: badgeFg),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final compact = constraints.maxWidth < 360;
+                  final rank = CircleAvatar(
+                    radius: 13,
+                    backgroundColor: badgeBg,
+                    child: Text(
+                      '#${item.rank}',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: badgeFg,
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: OwnerColors.secondaryFixed,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(Icons.ramen_dining_rounded, color: OwnerColors.primary, size: 22),
+                  );
+                  final image = Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: OwnerColors.secondaryFixed,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.name,
-                            style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            item.subtitle,
-                            style: const TextStyle(fontSize: 11.5, color: OwnerColors.onSurfaceVariant),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
+                    child: const Icon(
+                      Icons.ramen_dining_rounded,
+                      color: OwnerColors.primary,
+                      size: 22,
                     ),
-                    const SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(item.revenue, style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700)),
-                        Text(
-                          item.growth,
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: item.isPositiveHighlight ? OwnerColors.tertiary : OwnerColors.onSurfaceVariant,
-                          ),
+                  );
+                  final details = Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.name,
+                        style: const TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w700,
                         ),
-                      ],
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        item.subtitle,
+                        style: const TextStyle(
+                          fontSize: 11.5,
+                          color: OwnerColors.onSurfaceVariant,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  );
+                  final revenue = Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        item.revenue,
+                        style: const TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        item.growth,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: item.isPositiveHighlight
+                              ? OwnerColors.tertiary
+                              : OwnerColors.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  );
+
+                  return Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: OwnerColors.surfaceContainerLow.withValues(
+                        alpha: 0.55,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ],
-                ),
+                    child: compact
+                        ? Column(
+                            children: [
+                              Row(
+                                children: [
+                                  rank,
+                                  const SizedBox(width: 8),
+                                  image,
+                                  const SizedBox(width: 8),
+                                  Expanded(child: details),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: revenue,
+                              ),
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              rank,
+                              const SizedBox(width: 10),
+                              image,
+                              const SizedBox(width: 12),
+                              Expanded(child: details),
+                              const SizedBox(width: 8),
+                              revenue,
+                            ],
+                          ),
+                  );
+                },
               ),
             );
           }),
@@ -805,26 +1136,52 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
               color: OwnerColors.surfaceContainerLow,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    '5 Menu ini menyumbang 88.2% omset makanan total',
-                    style: TextStyle(fontSize: 12, color: OwnerColors.onSurfaceVariant),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                const summary = Text(
+                  '5 Menu ini menyumbang 88.2% omset makanan total',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: OwnerColors.onSurfaceVariant,
                   ),
-                ),
-                Row(
+                );
+                const action = Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       'Analisis Lengkap',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: OwnerColors.primary),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: OwnerColors.primary,
+                      ),
                     ),
                     SizedBox(width: 4),
-                    Icon(Icons.arrow_forward_rounded, size: 15, color: OwnerColors.primary),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      size: 15,
+                      color: OwnerColors.primary,
+                    ),
                   ],
-                ),
-              ],
+                );
+                if (constraints.maxWidth < 420) {
+                  return const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      summary,
+                      SizedBox(height: 8),
+                      Align(alignment: Alignment.centerRight, child: action),
+                    ],
+                  );
+                }
+                return const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(child: summary),
+                    action,
+                  ],
+                );
+              },
             ),
           ),
         ],
@@ -842,39 +1199,82 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            runSpacing: 8,
-            children: [
-              const Row(
-                mainAxisSize: MainAxisSize.min,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final compact = constraints.maxWidth < 560;
+              final heading = Row(
                 children: [
-                  Icon(Icons.history_rounded, color: OwnerColors.primary, size: 22),
-                  SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('5 Transaksi Terkini', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
-                      Text('Data masuk secara otomatis dari kasir cabang', style: TextStyle(fontSize: 12, color: OwnerColors.onSurfaceVariant)),
-                    ],
+                  const Icon(
+                    Icons.history_rounded,
+                    color: OwnerColors.primary,
+                    size: 22,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '5 Transaksi Terkini',
+                          style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'Data masuk secara otomatis dari kasir cabang',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: OwnerColors.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
-              ),
-              TextButton.icon(
+              );
+              final action = TextButton.icon(
                 onPressed: widget.onNavigateToTransactions,
-                icon: const Text(
-                  'Lihat Semua Transaksi di Laporan Transaksi',
-                  style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: OwnerColors.primary),
+                icon: Text(
+                  compact
+                      ? 'Lihat semua'
+                      : 'Lihat Semua Transaksi di Laporan Transaksi',
+                  style: const TextStyle(
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w700,
+                    color: OwnerColors.primary,
+                  ),
                 ),
-                label: const Icon(Icons.chevron_right_rounded, size: 18, color: OwnerColors.primary),
-              ),
-            ],
+                label: const Icon(
+                  Icons.chevron_right_rounded,
+                  size: 18,
+                  color: OwnerColors.primary,
+                ),
+              );
+              if (compact) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    heading,
+                    Align(alignment: Alignment.centerRight, child: action),
+                  ],
+                );
+              }
+              return Row(
+                children: [
+                  Expanded(child: heading),
+                  action,
+                ],
+              );
+            },
           ),
           const SizedBox(height: 12),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: DataTable(
-              headingRowColor: WidgetStateProperty.all(OwnerColors.surfaceContainerLow),
+              headingRowColor: WidgetStateProperty.all(
+                OwnerColors.surfaceContainerLow,
+              ),
               columns: const [
                 DataColumn(label: Text('No. Transaksi')),
                 DataColumn(label: Text('Waktu & Gerai')),
@@ -887,24 +1287,71 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
               rows: MockAnalyticsRepository.transactions.map((trx) {
                 return DataRow(
                   cells: [
-                    DataCell(Text(trx.id, style: const TextStyle(fontWeight: FontWeight.w600, color: OwnerColors.primary))),
-                    DataCell(Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(trx.time, style: const TextStyle(fontWeight: FontWeight.w500)),
-                        Text(trx.outlet, style: const TextStyle(fontSize: 11, color: OwnerColors.onSurfaceVariant)),
-                      ],
-                    )),
-                    DataCell(Text(trx.customer, style: const TextStyle(fontWeight: FontWeight.w500))),
-                    DataCell(_pillBadge(trx.orderType, OwnerColors.secondaryContainer, OwnerColors.onSecondaryContainer)),
-                    DataCell(_pillBadge(trx.paymentMethod, OwnerColors.surfaceContainer, OwnerColors.onSurface)),
-                    DataCell(Text(trx.total, style: const TextStyle(fontWeight: FontWeight.w700))),
-                    DataCell(_pillBadge(
-                      trx.status,
-                      trx.status == 'Selesai' ? OwnerColors.tertiaryFixed : OwnerColors.errorContainer,
-                      trx.status == 'Selesai' ? OwnerColors.onTertiaryFixed : OwnerColors.error,
-                    )),
+                    DataCell(
+                      Text(
+                        trx.id,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: OwnerColors.primary,
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            trx.time,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            trx.outlet,
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: OwnerColors.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        trx.customer,
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    DataCell(
+                      _pillBadge(
+                        trx.orderType,
+                        OwnerColors.secondaryContainer,
+                        OwnerColors.onSecondaryContainer,
+                      ),
+                    ),
+                    DataCell(
+                      _pillBadge(
+                        trx.paymentMethod,
+                        OwnerColors.surfaceContainer,
+                        OwnerColors.onSurface,
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        trx.total,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    DataCell(
+                      _pillBadge(
+                        trx.status,
+                        trx.status == 'Selesai'
+                            ? OwnerColors.tertiaryFixed
+                            : OwnerColors.errorContainer,
+                        trx.status == 'Selesai'
+                            ? OwnerColors.onTertiaryFixed
+                            : OwnerColors.error,
+                      ),
+                    ),
                   ],
                 );
               }).toList(),
@@ -920,20 +1367,29 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
             child: const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.verified_user_rounded, color: OwnerColors.primary, size: 20),
+                Icon(
+                  Icons.verified_user_rounded,
+                  color: OwnerColors.primary,
+                  size: 20,
+                ),
                 SizedBox(width: 10),
                 Expanded(
                   child: Text.rich(
                     TextSpan(
-                      style: TextStyle(fontSize: 12, color: OwnerColors.onSurfaceVariant),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: OwnerColors.onSurfaceVariant,
+                      ),
                       children: [
                         TextSpan(
                           text: 'Mode Owner (Read-Only): ',
-                          style: TextStyle(fontWeight: FontWeight.w700, color: OwnerColors.onSurface),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: OwnerColors.onSurface,
+                          ),
                         ),
                         TextSpan(
-                          text:
-                              'Seluruh data disinkronisasi langsung dari sistem POS Kasir dan Web Pelanggan secara terenkripsi. Fitur edit maupun pembatalan transaksi dinonaktifkan pada portal ini untuk menjaga transparansi dan integritas buku pembukuan usaha.',
+                          text: 'Seluruh data disinkronisasi langsung dari sistem POS Kasir dan Web Pelanggan secara terenkripsi. Fitur edit maupun pembatalan transaksi dinonaktifkan pada portal ini untuk menjaga transparansi dan integritas buku pembukuan usaha.',
                         ),
                       ],
                     ),
@@ -950,8 +1406,18 @@ class _OwnerDashboardContentState extends State<_OwnerDashboardContent> {
   Widget _pillBadge(String label, Color bg, Color fg) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
-      child: Text(label, style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600, color: fg)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11.5,
+          fontWeight: FontWeight.w600,
+          color: fg,
+        ),
+      ),
     );
   }
 }

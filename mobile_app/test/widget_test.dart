@@ -132,6 +132,107 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('Header desktop responsif dan placeholder menampilkan estimasi', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1124, 768);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    appRouter.go('/');
+    await tester.pumpWidget(const ProviderScope(child: AppBootstrap()));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+
+    appRouter.go('/admin/orders');
+    await tester.pumpAndSettle();
+    expect(find.text('Dalam Pengembangan'), findsOneWidget);
+    expect(
+      find.text('Estimasi pengerjaan: minggu ke-2–5 sesuai roadmap PBL.'),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Halaman utama tetap muat di ponsel, tablet, dan desktop', (
+    tester,
+  ) async {
+    const viewports = [
+      Size(320, 640),
+      Size(390, 844),
+      Size(768, 1024),
+      Size(1024, 768),
+    ];
+    const routes = [
+      '/',
+      '/admin/menu',
+      '/admin/categories',
+      '/admin/toppings',
+      '/admin/locations',
+      '/admin/locations/configure',
+      '/admin/orders',
+      '/admin/transactions',
+      '/admin/pos-history',
+      '/pos',
+      '/owner',
+    ];
+
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    for (final viewport in viewports) {
+      tester.view.physicalSize = viewport;
+      tester.view.devicePixelRatio = 1;
+      appRouter.go('/');
+      await tester.pumpWidget(const ProviderScope(child: AppBootstrap()));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull, reason: '/ at $viewport');
+
+      for (final route in routes.skip(1)) {
+        appRouter.go(route);
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull, reason: '$route at $viewport');
+      }
+    }
+  });
+
+  testWidgets('Laporan owner responsif di ponsel dan tablet', (tester) async {
+    const viewports = [
+      Size(320, 640),
+      Size(390, 844),
+      Size(768, 1024),
+      Size(1024, 768),
+    ];
+    const reports = {
+      'Laporan Penjualan': 'Laporan Penjualan & Pendapatan Usaha',
+      'Laporan Transaksi': 'Laporan Seluruh Transaksi Penjualan',
+      'Laporan Metode Pembayaran': 'Laporan Metode Pembayaran',
+      'Laporan Jenis Pesanan':
+          'Laporan Komparasi Jenis Pesanan (Delivery vs Pickup)',
+    };
+
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    for (final viewport in viewports) {
+      tester.view.physicalSize = viewport;
+      tester.view.devicePixelRatio = 1;
+      appRouter.go('/owner');
+      await tester.pumpWidget(const ProviderScope(child: AppBootstrap()));
+      await tester.pumpAndSettle();
+
+      for (final entry in reports.entries) {
+        await tester.tap(find.byIcon(Icons.menu_rounded));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(entry.key));
+        await tester.pumpAndSettle();
+        expect(find.text(entry.value), findsOneWidget, reason: entry.key);
+        expect(tester.takeException(), isNull, reason: '$entry at $viewport');
+      }
+    }
+  });
+
   testWidgets('Filter katalog rata kiri dan kartu ringkasan responsif', (
     tester,
   ) async {

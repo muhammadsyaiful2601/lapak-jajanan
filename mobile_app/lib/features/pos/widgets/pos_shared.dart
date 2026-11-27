@@ -46,12 +46,16 @@ Widget posPill(
           ),
           const SizedBox(width: 6),
         ],
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: small ? 10 : 12,
-            fontWeight: FontWeight.w700,
-            color: fg,
+        Flexible(
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: small ? 10 : 12,
+              fontWeight: FontWeight.w700,
+              color: fg,
+            ),
           ),
         ),
       ],

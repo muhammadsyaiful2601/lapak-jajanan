@@ -28,7 +28,12 @@ class PosSidebar extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
-          onTap: () => active ? null : onNav('Modul "$label" belum dibuat'),
+          onTap: () => active
+              ? null
+              : onNav(
+                  'Modul "$label" masih dalam pengembangan. '
+                  'Estimasi pengerjaan minggu ke-2–5 sesuai roadmap PBL.',
+                ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(

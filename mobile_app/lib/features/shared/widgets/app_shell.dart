@@ -431,63 +431,76 @@ class _DesktopHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 72,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      decoration: const BoxDecoration(
-        color: AdminColors.surface,
-        border: Border(bottom: BorderSide(color: AdminColors.border)),
-      ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.storefront_outlined,
-            size: 18,
-            color: AdminColors.muted,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final searchWidth = constraints.maxWidth < 800 ? 150.0 : 280.0;
+        return Container(
+          height: 72,
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          decoration: const BoxDecoration(
+            color: AdminColors.surface,
+            border: Border(bottom: BorderSide(color: AdminColors.border)),
           ),
-          const SizedBox(width: 8),
-          const Text(
-            'Portal Admin',
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          const Icon(Icons.chevron_right, size: 18, color: AdminColors.muted),
-          const Spacer(),
-          SizedBox(
-            width: 280,
-            child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Cari menu, pesanan, pelanggan...',
-                prefixIcon: Icon(Icons.search, size: 19),
-                isDense: true,
+          child: Row(
+            children: [
+              const Icon(
+                Icons.storefront_outlined,
+                size: 18,
+                color: AdminColors.muted,
               ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          const AdminStatusPill(label: 'Senja Tebet (Utama)'),
-          const SizedBox(width: 12),
-          FilledButton.icon(
-            onPressed: () => context.go('/pos'),
-            icon: const Icon(Icons.add, size: 18),
-            label: const Text('Transaksi Baru'),
-            style: FilledButton.styleFrom(
-              backgroundColor: AdminColors.primary,
-              foregroundColor: Colors.white,
-            ),
-          ),
-          const SizedBox(width: 12),
-          const CircleAvatar(
-            radius: 18,
-            backgroundColor: AdminColors.primary,
-            child: Text(
-              'A',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
+              const SizedBox(width: 8),
+              const Text(
+                'Portal Admin',
+                style: TextStyle(fontWeight: FontWeight.w600),
               ),
-            ),
+              const Icon(
+                Icons.chevron_right,
+                size: 18,
+                color: AdminColors.muted,
+              ),
+              const SizedBox(width: 16),
+              Flexible(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: searchWidth),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      hintText: 'Cari menu, pesanan, pelanggan...',
+                      prefixIcon: Icon(Icons.search, size: 19),
+                      isDense: true,
+                    ),
+                  ),
+                ),
+              ),
+              if (constraints.maxWidth >= 800) ...[
+                const SizedBox(width: 12),
+                const AdminStatusPill(label: 'Senja Tebet (Utama)'),
+                const SizedBox(width: 12),
+              ],
+              FilledButton.icon(
+                onPressed: () => context.go('/pos'),
+                icon: const Icon(Icons.add, size: 18),
+                label: const Text('Transaksi Baru'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: AdminColors.primary,
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const CircleAvatar(
+                radius: 18,
+                backgroundColor: AdminColors.primary,
+                child: Text(
+                  'A',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

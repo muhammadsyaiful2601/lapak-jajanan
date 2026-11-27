@@ -22,55 +22,75 @@ class PosTopBar extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        children: [
-          if (!wide)
-            IconButton(onPressed: onMenu, icon: const Icon(Icons.menu)),
-          const Icon(
-            Icons.storefront,
-            size: 18,
-            color: PosAppColors.onSurfaceVariant,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            wide ? 'Portal Admin  ›  ' : '',
-            style: const TextStyle(
-              fontSize: 12,
-              color: PosAppColors.onSurfaceVariant,
-            ),
-          ),
-          const Text(
-            'Lapak Jajan',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-          ),
-          const Spacer(),
-          if (wide)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: PosAppColors.surfaceHigh,
-                borderRadius: BorderRadius.circular(12),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final compact = constraints.maxWidth < 360;
+          return Row(
+            children: [
+              if (!wide)
+                IconButton(onPressed: onMenu, icon: const Icon(Icons.menu)),
+              const Icon(
+                Icons.storefront,
+                size: 18,
+                color: PosAppColors.onSurfaceVariant,
               ),
-              child: const Row(
-                children: [
-                  Icon(Icons.pin_drop, size: 18, color: PosAppColors.primary),
-                  SizedBox(width: 6),
-                  Text(
-                    'Senja Tebet (Utama)',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+              const SizedBox(width: 8),
+              Text(
+                wide ? 'Portal Admin  ›  ' : '',
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: PosAppColors.onSurfaceVariant,
+                ),
+              ),
+              Text(
+                compact ? 'Kasir' : 'Lapak Jajan',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const Spacer(),
+              if (wide)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
                   ),
-                ],
+                  decoration: BoxDecoration(
+                    color: PosAppColors.surfaceHigh,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Row(
+                    children: [
+                      Icon(
+                        Icons.pin_drop,
+                        size: 18,
+                        color: PosAppColors.primary,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        'Senja Tebet (Utama)',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              if (!compact) ...[
+                const SizedBox(width: 12),
+                const ClockText(),
+              ],
+              const SizedBox(width: 12),
+              const CircleAvatar(
+                radius: 16,
+                backgroundColor: PosAppColors.primary,
+                child: Icon(Icons.person, size: 18, color: Colors.white),
               ),
-            ),
-          const SizedBox(width: 12),
-          const ClockText(),
-          const SizedBox(width: 12),
-          const CircleAvatar(
-            radius: 16,
-            backgroundColor: PosAppColors.primary,
-            child: Icon(Icons.person, size: 18, color: Colors.white),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

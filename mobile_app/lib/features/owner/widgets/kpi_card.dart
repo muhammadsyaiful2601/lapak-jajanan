@@ -118,12 +118,17 @@ class KpiMetricCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            spacing: 8,
+            runSpacing: 4,
             children: [
               Text(
                 footerLeft,
-                style: const TextStyle(fontSize: 12, color: OwnerColors.onSurfaceVariant),
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: OwnerColors.onSurfaceVariant,
+                ),
               ),
               Text(
                 footerRight,

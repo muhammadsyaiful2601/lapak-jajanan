@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/theme/owner_theme.dart';
 import 'widgets/custom_charts.dart';
 import 'widgets/kpi_card.dart';
@@ -9,17 +10,45 @@ class PaymentMethodPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final providers = [
-      (name: 'BCA Mobile & MyBCA', amount: 'Rp 9.520.875', pct: '(35%)', color: OwnerColors.primary),
-      (name: 'GoPay E-Wallet', amount: 'Rp 6.800.625', pct: '(25%)', color: OwnerColors.tertiary),
-      (name: 'ShopeePay', amount: 'Rp 4.896.450', pct: '(18%)', color: OwnerColors.secondary),
-      (name: 'DANA & OVO', amount: 'Rp 3.808.350', pct: '(14%)', color: OwnerColors.primaryContainer),
-      (name: 'LinkAja, Mandiri Livin, Lainnya', amount: 'Rp 2.176.200', pct: '(8%)', color: OwnerColors.outline),
+      (
+        name: 'BCA Mobile & MyBCA',
+        amount: 'Rp 9.520.875',
+        pct: '(35%)',
+        color: OwnerColors.primary,
+      ),
+      (
+        name: 'GoPay E-Wallet',
+        amount: 'Rp 6.800.625',
+        pct: '(25%)',
+        color: OwnerColors.tertiary,
+      ),
+      (
+        name: 'ShopeePay',
+        amount: 'Rp 4.896.450',
+        pct: '(18%)',
+        color: OwnerColors.secondary,
+      ),
+      (
+        name: 'DANA & OVO',
+        amount: 'Rp 3.808.350',
+        pct: '(14%)',
+        color: OwnerColors.primaryContainer,
+      ),
+      (
+        name: 'LinkAja, Mandiri Livin, Lainnya',
+        amount: 'Rp 2.176.200',
+        pct: '(8%)',
+        color: OwnerColors.outline,
+      ),
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Laporan Metode Pembayaran', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
+        const Text(
+          'Laporan Metode Pembayaran',
+          style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
+        ),
         const SizedBox(height: 4),
         const Text(
           'Analisis komparasi volume transaksi, perputaran likuiditas uang tunai laci kasir vs penerimaan QRIS otomatis antar cabang Lapak Jajan.',
@@ -35,7 +64,7 @@ class PaymentMethodPage extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 14,
               mainAxisSpacing: 14,
-              childAspectRatio: cols == 1 ? 2.2 : 1.55,
+              mainAxisExtent: 280,
               children: const [
                 KpiMetricCard(
                   title: 'TOTAL PEMBAYARAN QRIS',
@@ -82,7 +111,10 @@ class PaymentMethodPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Rincian Provider QRIS (885 Transaksi)', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+              const Text(
+                'Rincian Provider QRIS (885 Transaksi)',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+              ),
               const SizedBox(height: 16),
               Wrap(
                 spacing: 28,
@@ -97,25 +129,56 @@ class PaymentMethodPage extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 420,
-                    child: Column(
-                      children: providers.map((p) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(radius: 5, backgroundColor: p.color),
-                                  const SizedBox(width: 8),
-                                  Text(p.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-                                ],
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final compact = constraints.maxWidth < 350;
+                        return Column(
+                          children: providers.map((p) {
+                            final name = Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 5,
+                                  backgroundColor: p.color,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    p.name,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            );
+                            final amount = Text(
+                              '${p.amount} ${p.pct}',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
                               ),
-                              Text('${p.amount} ${p.pct}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
-                            ],
-                          ),
+                            );
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: compact
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [name, amount],
+                                    )
+                                  : Row(
+                                      children: [
+                                        Expanded(child: name),
+                                        const SizedBox(width: 8),
+                                        amount,
+                                      ],
+                                    ),
+                            );
+                          }).toList(),
                         );
-                      }).toList(),
+                      },
                     ),
                   ),
                 ],

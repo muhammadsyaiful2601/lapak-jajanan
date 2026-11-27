@@ -392,19 +392,25 @@ class _PosPageState extends State<PosPage> {
                       style: TextStyle(color: PosAppColors.outline),
                     ),
                   )
-                : GridView.builder(
-                    itemCount: items.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 240,
+                : LayoutBuilder(
+                    builder: (context, constraints) {
+                      final maxCrossAxisExtent = constraints.maxWidth < 360
+                          ? constraints.maxWidth
+                          : 240.0;
+                      return GridView.builder(
+                        itemCount: items.length,
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: maxCrossAxisExtent,
                           mainAxisExtent: 258,
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16,
                         ),
-                    itemBuilder: (_, i) => MenuCard(
-                      item: items[i],
-                      onTap: () => _onTapMenu(items[i]),
-                    ),
+                        itemBuilder: (_, i) => MenuCard(
+                          item: items[i],
+                          onTap: () => _onTapMenu(items[i]),
+                        ),
+                      );
+                    },
                   ),
           ),
         ],
