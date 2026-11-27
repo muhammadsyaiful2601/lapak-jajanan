@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lapak_jajanan/features/admin/admin_dashboard_page.dart';
 import 'package:lapak_jajanan/features/admin/catalog_page.dart';
@@ -70,10 +71,7 @@ class _CustomerMaterialScope extends StatelessWidget {
   Widget build(BuildContext context) {
     return Localizations.override(
       context: context,
-      delegates: const [
-        DefaultMaterialLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
-      ],
+      delegates: GlobalMaterialLocalizations.delegates,
       child: Material(type: MaterialType.transparency, child: child),
     );
   }
