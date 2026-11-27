@@ -9,13 +9,17 @@ import { TrackingPage } from './pages/TrackingPage'
 export default function App() {
   return (
     <Routes>
+      {/* Katalog & keranjang memakai shell Layout (header + bottom nav). */}
       <Route element={<Layout />}>
         <Route path="/" element={<MenuPage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/track/:ticketCode" element={<TrackingPage />} />
-        <Route path="/riwayat" element={<HistoryPage />} />
       </Route>
+
+      {/* Halaman customer tampil full-screen dengan app bar sendiri,
+          identik dengan tampilan mobile (checkout / tracking / riwayat). */}
+      <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/track/:ticketCode" element={<TrackingPage />} />
+      <Route path="/riwayat" element={<HistoryPage />} />
     </Routes>
   )
 }
