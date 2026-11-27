@@ -119,6 +119,9 @@ a { color: inherit; }
 .modal h3 { margin: 16px 0 8px; font-size: 15px; }
 .checkbox-row, .radio-row { display: flex; gap: 8px; align-items: center; padding: 6px 0; }
 .checkbox-row small { color: #e65100; }
+.checkbox-row.unavailable { color: #999; }
+.checkbox-row.unavailable input { cursor: not-allowed; }
+.checkbox-row .sold-out { color: #999; font-weight: 700; }
 
 .quantity-row { display: flex; align-items: center; gap: 16px; margin: 16px 0; }
 .quantity-row button {

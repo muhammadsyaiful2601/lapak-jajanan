@@ -1,0 +1,21 @@
+# Laporan Mingguan — Arum
+
+## Tugas utama: Slicing UI App Admin (Master & Lokasi)
+
+- Menata shell admin responsif: sidebar, informasi lokasi utama, identitas pengguna, dan navigasi.
+- Membuat UI katalog menu dan kategori, termasuk pencarian, filter, status ketersediaan, serta aksi kelola pada preview lokal.
+- Mengintegrasikan form tambah/edit menu: informasi menu, foto preview, variasi, add-on/topping per menu, dan grup kustom.
+- Memisahkan form konfigurasi gerai dari daftar lokasi. Form mencakup alamat, koordinat, jam/hari operasional, publikasi, dan status buka/tutup.
+- Merapikan tampilan responsif: kartu ringkasan memenuhi lebar, filter rata kiri, daftar kategori lebih lebar, jarak toggle lebih rapi, dan baris pesanan sejajar.
+
+## Tambahan di luar tugas utama
+
+- **Di luar cakupan Master & Lokasi:** ringkasan operasional dashboard dan baris total QRIS. Nilai QRIS Rp254.000 masih data contoh dari pesanan yang ditampilkan.
+- **Di luar cakupan Admin:** topping yang habis dibuat tidak bisa dipilih pada halaman pemesanan web.
+- Penyesuaian navigasi/halaman pendukung POS, pesanan, riwayat transaksi, serta troubleshooting tampilan putih aplikasi.
+
+## Batasan dan pengujian
+
+- Seluruh perubahan konfigurasi menu dan gerai di frontend masih berupa preview lokal; belum tersimpan ke database/backend. Foto menu juga hanya preview lokal.
+- Tidak ada perubahan backend, API, database, atau migration sebagai bagian pekerjaan ini.
+- Validasi terakhir: `flutter analyze` bersih dan `flutter test test/widget_test.dart` lulus (8 tes). Build web Flutter dan web pemesanan sebelumnya berhasil.

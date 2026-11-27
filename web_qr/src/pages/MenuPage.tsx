@@ -46,7 +46,10 @@ export function MenuPage() {
   }, [menus, search, categoryId])
 
   const selectedExtras = toppings.filter(
-    (topping) => selectedToppings.includes(topping.id) && topping.menu_id === selected?.id,
+    (topping) =>
+      selectedToppings.includes(topping.id) &&
+      topping.menu_id === selected?.id &&
+      topping.is_available,
   )
 
   function openDetail(menu: Menu) {
@@ -57,8 +60,9 @@ export function MenuPage() {
 
   function addToCart() {
     if (!selected) return
+    const availableExtraIds = selectedExtras.map((item) => item.id).sort()
     addItem({
-      key: `${selected.id}|${[...selectedToppings].sort().join(',')}`,
+      key: `${selected.id}|${availableExtraIds.join(',')}`,
       menuId: selected.id,
       name: selected.name,
       unitPrice:
@@ -142,14 +146,20 @@ export function MenuPage() {
             <h3>Topping (FR-P04)</h3>
             {toppings
               .filter((topping) => topping.menu_id === selected.id)
-              .map((topping) => (
-                <label key={topping.id} className="checkbox-row">
+              .map((topping) => {
+                const available = topping.is_available
+                return (
+                <label
+                  key={topping.id}
+                  className={available ? 'checkbox-row' : 'checkbox-row unavailable'}
+                >
                   <input
                     type="checkbox"
                     checked={selectedToppings.includes(topping.id)}
+                    disabled={!available}
                     onChange={(event) =>
                       setSelectedToppings((current) =>
-                        event.target.checked
+                        event.target.checked && available
                           ? [...current, topping.id]
                           : current.filter((id) => id !== topping.id),
                       )
@@ -157,10 +167,15 @@ export function MenuPage() {
                   />
                   <span>
                     {topping.topping_name}{' '}
-                    <small>+{formatRupiah(Number(topping.extra_price))}</small>
+                    {available ? (
+                      <small>+{formatRupiah(Number(topping.extra_price))}</small>
+                    ) : (
+                      <small className="sold-out">Habis</small>
+                    )}
                   </span>
                 </label>
-              ))}
+                )
+              })}
 
             <div className="quantity-row">
               <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
