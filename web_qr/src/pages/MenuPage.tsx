@@ -1,20 +1,53 @@
-import { useEffect, useMemo, useState } from 'react'
-import { SetupNotice } from '../components/SetupNotice'
+import { useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { MenuCard } from '../components/catalog/MenuCard'
+import { MenuDetailSheet } from '../components/catalog/MenuDetailSheet'
 import { useCart } from '../context/useCart'
+import {
+  mockCategories,
+  mockMenus,
+  mockToppings,
+  toCatalogMenu,
+  type CatalogMenu,
+} from '../data/mockCatalog'
+import { getLocationLabel } from '../lib/location'
 import { formatRupiah, isSupabaseConfigured, supabase } from '../lib/supabase'
-import type { Category, Menu, Topping } from '../types'
+import type { CartItem, Category, Menu, Topping } from '../types'
+
+type SortMode = 'populer' | 'murah' | 'nama'
+
+function SearchIcon() {
+  return (
+    <svg
+      className="search-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m16 16 4 4" strokeLinecap="round" />
+    </svg>
+  )
+}
 
 export function MenuPage() {
-  const [menus, setMenus] = useState<Menu[]>([])
-  const [categories, setCategories] = useState<Category[]>([])
-  const [toppings, setToppings] = useState<Topping[]>([])
+  const [menus, setMenus] = useState<CatalogMenu[]>(() =>
+    isSupabaseConfigured ? [] : mockMenus,
+  )
+  const [categories, setCategories] = useState<Category[]>(() =>
+    isSupabaseConfigured ? [] : mockCategories,
+  )
+  const [toppings, setToppings] = useState<Topping[]>(() =>
+    isSupabaseConfigured ? [] : mockToppings,
+  )
   const [search, setSearch] = useState('')
   const [categoryId, setCategoryId] = useState<string | null>(null)
-  const [selected, setSelected] = useState<Menu | null>(null)
-  const [selectedToppings, setSelectedToppings] = useState<string[]>([])
-  const [quantity, setQuantity] = useState(1)
+  const [sortMode, setSortMode] = useState<SortMode>('populer')
+  const [selected, setSelected] = useState<CatalogMenu | null>(null)
   const [loading, setLoading] = useState(isSupabaseConfigured)
-  const { addItem } = useCart()
+  const { addItem, totalQuantity, subtotal } = useCart()
 
   useEffect(() => {
     if (!supabase) return
@@ -26,9 +59,15 @@ export function MenuPage() {
       supabase.from('menu_toppings').select('*'),
     ]).then(([menuResult, categoryResult, toppingResult]) => {
       if (!active) return
-      setMenus((menuResult.data as Menu[]) ?? [])
-      setCategories((categoryResult.data as Category[]) ?? [])
-      setToppings((toppingResult.data as Topping[]) ?? [])
+      if (menuResult.error || categoryResult.error || toppingResult.error) {
+        setMenus(mockMenus)
+        setCategories(mockCategories)
+        setToppings(mockToppings)
+      } else {
+        setMenus(((menuResult.data ?? []) as Menu[]).map(toCatalogMenu))
+        setCategories((categoryResult.data ?? []) as Category[])
+        setToppings((toppingResult.data ?? []) as Topping[])
+      }
       setLoading(false)
     })
 
@@ -37,63 +76,81 @@ export function MenuPage() {
     }
   }, [])
 
-  const visibleMenus = useMemo(() => {
-    return menus.filter((menu) => {
-      const matchSearch = menu.name.toLowerCase().includes(search.toLowerCase())
+  const closeDetail = useCallback(() => setSelected(null), [])
+
+  const handleAdd = useCallback(
+    (item: CartItem) => {
+      addItem(item)
+      setSelected(null)
+    },
+    [addItem],
+  )
+
+  const visibleMenus = menus
+    .filter((menu) => {
+      const matchSearch = menu.name.toLowerCase().includes(search.trim().toLowerCase())
       const matchCategory = !categoryId || menu.category_id === categoryId
       return matchSearch && matchCategory
     })
-  }, [menus, search, categoryId])
-
-  const selectedExtras = toppings.filter(
-    (topping) =>
-      selectedToppings.includes(topping.id) &&
-      topping.menu_id === selected?.id &&
-      topping.is_available,
-  )
-
-  function openDetail(menu: Menu) {
-    setSelected(menu)
-    setSelectedToppings([])
-    setQuantity(1)
-  }
-
-  function addToCart() {
-    if (!selected) return
-    const availableExtraIds = selectedExtras.map((item) => item.id).sort()
-    addItem({
-      key: `${selected.id}|${availableExtraIds.join(',')}`,
-      menuId: selected.id,
-      name: selected.name,
-      unitPrice:
-        selected.price + selectedExtras.reduce((sum, item) => sum + item.extra_price, 0),
-      toppingNames: selectedExtras.map((item) => item.topping_name),
-      quantity,
-      note: '',
+    .sort((a, b) => {
+      if (sortMode === 'murah') return Number(a.price) - Number(b.price)
+      if (sortMode === 'nama') return a.name.localeCompare(b.name)
+      const aPopular = a.badge && a.badge !== 'Stok habis' ? 0 : 1
+      const bPopular = b.badge && b.badge !== 'Stok habis' ? 0 : 1
+      return aPopular - bPopular
     })
-    setSelected(null)
-  }
 
   return (
-    <div className="page">
-      <SetupNotice />
-
-      <section className="hero-card">
-        <h1>Pesan jajanan favoritmu</h1>
-        <p>Pilih menu, tambahkan topping, lalu pesan via Delivery atau Pickup.</p>
+    <div className="catalog-page">
+      <section className="store-banner">
+        <div className="store-icon" aria-hidden="true">🏪</div>
+        <div className="store-copy">
+          <div className="store-title">
+            <strong>Gerai Aktif Hari Ini: {getLocationLabel()}</strong>
+            <span className="status-pill">Buka</span>
+          </div>
+          <p>10.00–22.00 WIB • Delivery & Pickup dibuka</p>
+          <small>Ditetapkan otomatis oleh sistem kasir admin</small>
+        </div>
+        <span className="speed-pill"><span aria-hidden="true">⚡</span> Cepat</span>
       </section>
 
-      <input
-        className="search-input"
-        placeholder="🔍 Cari menu..."
-        value={search}
-        onChange={(event) => setSearch(event.target.value)}
-      />
+      <div className="catalog-toolbar">
+        <div className="search-box">
+          <SearchIcon />
+          <input
+            aria-label="Cari menu"
+            placeholder="Cari pentol, bakmie, minuman..."
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          {search && (
+            <button type="button" onClick={() => setSearch('')} aria-label="Hapus pencarian">
+              ×
+            </button>
+          )}
+        </div>
 
-      <div className="chips">
+        <label className="sort-pill">
+          <span aria-hidden="true">🔥</span>
+          <select
+            aria-label="Urutkan menu"
+            value={sortMode}
+            onChange={(event) => setSortMode(event.target.value as SortMode)}
+          >
+            <option value="populer">Terpopuler</option>
+            <option value="murah">Termurah</option>
+            <option value="nama">Nama A–Z</option>
+          </select>
+        </label>
+      </div>
+
+      <div className="category-tabs" role="tablist" aria-label="Kategori menu">
         <button
           type="button"
-          className={categoryId === null ? 'chip active' : 'chip'}
+          role="tab"
+          aria-selected={categoryId === null}
+          className={categoryId === null ? 'category-tab active' : 'category-tab'}
           onClick={() => setCategoryId(null)}
         >
           Semua
@@ -102,7 +159,9 @@ export function MenuPage() {
           <button
             key={category.id}
             type="button"
-            className={categoryId === category.id ? 'chip active' : 'chip'}
+            role="tab"
+            aria-selected={categoryId === category.id}
+            className={categoryId === category.id ? 'category-tab active' : 'category-tab'}
             onClick={() => setCategoryId(category.id)}
           >
             {category.name}
@@ -110,86 +169,58 @@ export function MenuPage() {
         ))}
       </div>
 
-      {loading && <p className="muted">Memuat menu...</p>}
-      {!loading && visibleMenus.length === 0 && (
-        <p className="muted">Belum ada menu. Jalankan database/seed.sql di Supabase.</p>
+      {loading && (
+        <div className="menu-list">
+          {[0, 1, 2, 3].map((index) => (
+            <div key={index} className="menu-row skeleton" aria-hidden="true" />
+          ))}
+        </div>
       )}
 
-      <div className="menu-grid">
-        {visibleMenus.map((menu) => (
+      {!loading && visibleMenus.length === 0 && (
+        <div className="empty-state">
+          <span aria-hidden="true">🥢</span>
+          <strong>Menu tidak ditemukan</strong>
+          <p>Coba kata kunci lain atau pilih kategori Semua.</p>
           <button
-            key={menu.id}
             type="button"
-            className="menu-card"
-            onClick={() => openDetail(menu)}
-            disabled={!menu.is_available}
+            className="text-button"
+            onClick={() => {
+              setSearch('')
+              setCategoryId(null)
+            }}
           >
-            <div className="menu-emoji">🍲</div>
-            <div className="menu-info">
-              <strong>{menu.name}</strong>
-              <p>{menu.description}</p>
-              <span className={menu.is_available ? 'price' : 'price sold-out'}>
-                {menu.is_available ? formatRupiah(Number(menu.price)) : 'Habis'}
-              </span>
-            </div>
+            Reset filter
           </button>
-        ))}
-      </div>
+        </div>
+      )}
+
+      {!loading && visibleMenus.length > 0 && (
+        <div className="menu-list">
+          {visibleMenus.map((menu) => (
+            <MenuCard key={menu.id} menu={menu} onSelect={setSelected} />
+          ))}
+        </div>
+      )}
 
       {selected && (
-        <div className="modal-backdrop" onClick={() => setSelected(null)}>
-          <div className="modal" onClick={(event) => event.stopPropagation()}>
-            <h2>{selected.name}</h2>
-            <p className="muted">{selected.description}</p>
-            <p className="price">{formatRupiah(Number(selected.price))}</p>
+        <MenuDetailSheet
+          menu={selected}
+          toppings={toppings}
+          onClose={closeDetail}
+          onAdd={handleAdd}
+        />
+      )}
 
-            <h3>Topping (FR-P04)</h3>
-            {toppings
-              .filter((topping) => topping.menu_id === selected.id)
-              .map((topping) => {
-                const available = topping.is_available
-                return (
-                <label
-                  key={topping.id}
-                  className={available ? 'checkbox-row' : 'checkbox-row unavailable'}
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedToppings.includes(topping.id)}
-                    disabled={!available}
-                    onChange={(event) =>
-                      setSelectedToppings((current) =>
-                        event.target.checked && available
-                          ? [...current, topping.id]
-                          : current.filter((id) => id !== topping.id),
-                      )
-                    }
-                  />
-                  <span>
-                    {topping.topping_name}{' '}
-                    {available ? (
-                      <small>+{formatRupiah(Number(topping.extra_price))}</small>
-                    ) : (
-                      <small className="sold-out">Habis</small>
-                    )}
-                  </span>
-                </label>
-                )
-              })}
-
-            <div className="quantity-row">
-              <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
-              <span>{quantity}</span>
-              <button type="button" onClick={() => setQuantity(quantity + 1)}>+</button>
-            </div>
-
-            <button type="button" className="primary-button" onClick={addToCart}>
-              Tambah ke keranjang
-            </button>
-            <button type="button" className="text-button" onClick={() => setSelected(null)}>
-              Batal
-            </button>
+      {totalQuantity > 0 && (
+        <div className="floating-cart">
+          <div className="floating-cart-info">
+            <small>{totalQuantity} Menu Terpilih</small>
+            <strong>{formatRupiah(subtotal)}</strong>
           </div>
+          <Link to="/cart" className="floating-cart-button">
+            Lihat Keranjang <span aria-hidden="true">→</span>
+          </Link>
         </div>
       )}
     </div>

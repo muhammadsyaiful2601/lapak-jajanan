@@ -47,9 +47,9 @@ export function MenuDetailSheet({
     }
   }, [onClose])
 
-  const availableToppings = toppings.filter(
-    (topping) => topping.menu_id === menu.id && topping.is_available,
-  )
+  // Semua topping menu ikut tampil; yang habis ditandai disabled (FR-P04).
+  const menuToppings = toppings.filter((topping) => topping.menu_id === menu.id)
+  const availableToppings = menuToppings.filter((topping) => topping.is_available)
   const variant = VARIANTS.find((item) => item.id === variantId) ?? VARIANTS[0]
   const activeToppings = selectedToppings.filter((id) =>
     availableToppings.some((topping) => topping.id === id),
@@ -62,7 +62,10 @@ export function MenuDetailSheet({
     variant.extra +
     chosenToppings.reduce((sum, topping) => sum + Number(topping.extra_price), 0)
 
-  function toggleTopping(id: string) {
+  function toggleTopping(topping: Topping) {
+    // Topping habis tidak bisa dipilih.
+    if (!topping.is_available) return
+    const id = topping.id
     setSelectedToppings((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id],
     )
@@ -151,31 +154,43 @@ export function MenuDetailSheet({
               <span className="muted">Bisa pilih lebih dari satu</span>
             </div>
 
-            {availableToppings.length === 0 && (
+            {menuToppings.length === 0 && (
               <p className="muted">Menu ini belum punya topping.</p>
             )}
 
             <div className="topping-list">
-              {availableToppings.map((topping) => {
+              {menuToppings.map((topping) => {
                 const checked = activeToppings.includes(topping.id)
+                const available = topping.is_available
                 return (
                   <label
                     key={topping.id}
-                    className={checked ? 'topping-row checked' : 'topping-row'}
+                    className={[
+                      'topping-row',
+                      checked ? 'checked' : '',
+                      available ? '' : 'unavailable',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
                   >
                     <input
                       type="checkbox"
                       checked={checked}
-                      onChange={() => toggleTopping(topping.id)}
+                      disabled={!available}
+                      onChange={() => toggleTopping(topping)}
                     />
                     <span className="topping-check" aria-hidden="true">
                       {checked ? '✓' : ''}
                     </span>
                     <span className="topping-name">{topping.topping_name}</span>
                     <span className="topping-price">
-                      {Number(topping.extra_price) > 0
-                        ? `+${formatRupiah(Number(topping.extra_price))}`
-                        : 'Gratis'}
+                      {!available ? (
+                        <small className="sold-out">Habis</small>
+                      ) : Number(topping.extra_price) > 0 ? (
+                        `+${formatRupiah(Number(topping.extra_price))}`
+                      ) : (
+                        'Gratis'
+                      )}
                     </span>
                   </label>
                 )
